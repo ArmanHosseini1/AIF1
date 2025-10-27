@@ -18,15 +18,15 @@ def recognize_digit(image):
     img_binary = io.BytesIO()
     image.save(img_binary, format="PNG")
     # Send request to the API
-    response = requests.post("http://127.0.0.1:5000//predict", data=img_binary.getvalue())
+    response = requests.post("http://0.0.0.0:5075/predict", data=img_binary.getvalue())
     return response.json()["prediction"]
 
 if __name__=='__main__':
 
-    gr.Interface(fn=recognize_digit, 
+    interface = gr.Interface(fn=recognize_digit, 
                 inputs="sketchpad", 
                 outputs='label',
                 live=True,
                 description="Draw a number on the sketchpad to see the model's prediction.",
-                ).launch(debug=True, share=True)
-    #interface.launch(server_name="0.0.0.0", server_port=7860) # the server will be accessible externally under this address   
+                )
+    interface.launch(server_name="0.0.0.0", server_port=7860) # the server will be accessible externally under this address   
